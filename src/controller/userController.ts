@@ -68,7 +68,8 @@ export async function RegisterUser(req:Request, res:Response, next:NextFunction)
          
         const {id} = User
         const token = generateToken({id})
-        //res.cookie('token', token, {httpOnly:true} )
+        res.cookie('token', token, {httpOnly:true} )
+        res.cookie('id',id,{httpOnly:true})
         const validUser = await bcrypt.compare(req.body.Password, User.Password);
  
        if(!validUser){
@@ -121,9 +122,10 @@ export async function RegisterUser(req:Request, res:Response, next:NextFunction)
         })
     }
  }
- //export async function logout(req:Request' res:Response) {
-//     res.clearCookie()
-//     res.status(200).json({
-//         message:'Successfully logged out'
-//     })
-//  }
+ export async function logout(req:Request, res:Response) {
+    res.clearCookie('token')
+    // res.status(200).json({
+    //     message:'Successfully logged out'
+    // })
+    res.redirect('/')
+ }

@@ -2,6 +2,7 @@ import express  from 'express';
 const router = express.Router();
 import { auth } from '../middleware/auth';
 import { getOne, getPatientInfo } from '../controller/hospController'
+import { logout } from '../controller/userController';
 
 router.get('/register',(req, res)=>{
     res.render("register")
@@ -24,6 +25,8 @@ router.get('/updateinfo/:id', (req, res) => {
 
 router.get('/dashboard', auth, getOne)
 router.get('/patient/:id', auth, getPatientInfo)
+
+router.get('/logout', logout)
 
 
 export default router;

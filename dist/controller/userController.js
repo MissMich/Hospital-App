@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUsers = exports.LoginUser = exports.RegisterUser = void 0;
+exports.logout = exports.getUsers = exports.LoginUser = exports.RegisterUser = void 0;
 const uuid_1 = require("uuid");
 const utils_1 = require("../utils/utils");
 const usersModel_1 = require("../model/usersModel");
@@ -69,7 +69,8 @@ async function LoginUser(req, res, next) {
         const User = await usersModel_1.UserInstance.findOne({ where: { Email: req.body.Email } });
         const { id } = User;
         const token = (0, utils_1.generateToken)({ id });
-        //res.cookie('token', token, {httpOnly:true} )
+        res.cookie('token', token, { httpOnly: true });
+        res.cookie('id', id, { httpOnly: true });
         const validUser = await bcryptjs_1.default.compare(req.body.Password, User.Password);
         if (!validUser) {
             res.status(401).json({
@@ -122,9 +123,11 @@ async function getUsers(req, res, next) {
     }
 }
 exports.getUsers = getUsers;
-//export async function logout(req:Request' res:Response) {
-//     res.clearCookie()
-//     res.status(200).json({
-//         message:'Successfully logged out'
-//     })
-//  }
+async function logout(req, res) {
+    res.clearCookie('token');
+    // res.status(200).json({
+    //     message:'Successfully logged out'
+    // })
+    res.redirect('/');
+}
+exports.logout = logout;
