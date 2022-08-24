@@ -6,13 +6,15 @@ const secrets = process.env.JWT_SECRETS as string;
 //checking that a user is verified and can access their unique login details
 export async function auth(req:Request | any, res:Response, next:NextFunction){
     try{
-        const authorization = req.headers.authorization;
-    if(!authorization){
-      res.status(401).json({
-        Error: 'Kindly sign up as a user'
-      }) 
+        const authorization = req.header.authorization;
+    if(!req.cookies.token){
+    //   res.status(401).json({
+    //     Error: 'Kindly sign up as a user'
+    //   }) 
+    res.redirect('/login')
+      return
     }
-    const token = authorization?.slice(7, authorization.length) as string
+    const token = authorization?.slice(7, authorization.length) as string || req.cookies.token
 
     let verified = jwt.verify(token, secrets);
 

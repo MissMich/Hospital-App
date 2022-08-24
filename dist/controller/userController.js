@@ -11,16 +11,18 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const patients_1 = require("../model/patients");
 async function RegisterUser(req, res, next) {
     const id = (0, uuid_1.v4)();
+    console.log(req.body);
     try {
         const validateResult = utils_1.registerSchema.validate(req.body, utils_1.options);
         if (validateResult.error) {
+            console.log(validateResult.error);
             return res.status(400).json({
                 Error: validateResult.error.details[0].message
             });
         }
         const duplicateEmail = await usersModel_1.UserInstance.findOne({ where: { Email: req.body.Email } });
         if (duplicateEmail) {
-            res.status(409).json({
+            return res.status(409).json({
                 msg: 'Email has been used, enter another email'
             });
         }
@@ -40,12 +42,14 @@ async function RegisterUser(req, res, next) {
             Phone: req.body.Phone,
             Password: hashPassword
         });
-        res.status(201).json({
-            message: "You have successfully created a User.",
-            record
-        });
+        // res.status(201).json({
+        //     message:"You have successfully created a User.",
+        //     record
+        // })
+        res.redirect('/');
     }
     catch (err) {
+        console.log(err);
         res.status(500).json({
             message: 'failed to register',
             route: '/register'
@@ -65,6 +69,7 @@ async function LoginUser(req, res, next) {
         const User = await usersModel_1.UserInstance.findOne({ where: { Email: req.body.Email } });
         const { id } = User;
         const token = (0, utils_1.generateToken)({ id });
+        //res.cookie('token', token, {httpOnly:true} )
         const validUser = await bcryptjs_1.default.compare(req.body.Password, User.Password);
         if (!validUser) {
             res.status(401).json({
@@ -72,6 +77,15 @@ async function LoginUser(req, res, next) {
             });
         }
         if (validUser) {
+            res.status(200).cookie("token", token, {
+                maxAge: 1000 * 60 * 60 * 24 * 7,
+                sameSite: 'strict',
+                httpOnly: true
+            }).cookie('userid', User.id, {
+                maxAge: 1000 * 60 * 60 * 24 * 7,
+                sameSite: 'strict',
+                httpOnly: true
+            });
             res.status(200).json({
                 message: "Successfully logged in",
                 token,
@@ -108,3 +122,9 @@ async function getUsers(req, res, next) {
     }
 }
 exports.getUsers = getUsers;
+//export async function logout(req:Request' res:Response) {
+//     res.clearCookie()
+//     res.status(200).json({
+//         message:'Successfully logged out'
+//     })
+//  }

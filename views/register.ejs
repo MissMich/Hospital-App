@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="/public/stylesheets/register.css"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <title>Sign Up</title>
+    <style>
+      .image{
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      .form{
+        padding-top:40px;
+      }
+      .card{
+        opacity: 0.8;
+
+      }
+      .btn{
+        background-color:cadetblue;
+        border: none;
+      }
+    </style>
+</head>
+<body>
+  <section class="vh-100 bg-image image"
+  style="background-image: url('https://thumbs.dreamstime.com/z/doctor-works-cloud-storage-doctor-works-cloud-storage-mobile-device-193407536.jpg');">
+  <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body p-4">
+              <h2 class="text-uppercase text-center mb-3">Register User</h2>
+
+              <form class="form" id="register">
+
+                <div class="form-outline mb-1">
+                  <label class="form-label" for="form3Example1cg">Doctors Name</label>
+                  <input type="text" name="DoctorsName" id="DoctorsName" class="form-control form-control-md" required/>
+                </div>
+
+                <div class="form-outline mb-1">
+                  <label class="form-label" for="form3Example3cg">Email</label>
+                  <input type="email" name="Email" id="Email" class="form-control form-control-md" required/>
+                </div>
+                <div class="form-outline" mb-1>
+                  <label class="form-label" for="form3Example3cg">Specialization</label>
+                  <input type="text" name="Specialization" id="Specialization" class="form-control form-control-md" required/>
+                </div>
+                <div class="form-outline" mb-1>
+                  <label class="form-label" for="form3Example3cg">Gender</label>
+                  <input type="text" name="Gender" id="Gender" class="form-control form-control-md" required/>
+                </div>
+                <div class="form-outline" mb-1>
+                  <label class="form-label" for="form3Example3cg">Phone Number</label>
+                  <input type="text" name="Phone" id="Phone" class="form-control form-control-md" required />
+                </div>
+
+                <div class="form-outline" mb-1>
+                  <label class="form-label" for="form3Example4cg">Password</label>
+                  <input type="password" name="Password" id="Password" class="form-control form-control-md" required/>
+                </div>
+
+                <div class="form-outline" mb-1>
+                  <label class="form-label" for="form3Example4cdg">Confirm Password</label>
+                  <input type="password" name="Confirm_password" id="Confirm_password" class="form-control form-control-md" required/>
+                </div>
+
+
+                <div class="d-flex justify-content-center">
+                  <button type="submit" style="margin-top: 10px"
+                    class="btn btn-success btn-block gradient-custom-4 text-body">Register</button>
+                </div>
+                <p class="text-center text-muted mt-3">Have already an account? <a href="/login"
+                    class="fw-bold text-body"><u>Login here</u></a></p>
+
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- <script src="../public/javascripts/register.js"></script> -->
+</body>
+</html>
+
+<script>
+const registrationForm = document.getElementById('register')
+
+registrationForm.addEventListener('submit', (reg) => {
+    reg.preventDefault();
+
+    const doctorData = {
+        DoctorsName: registrationForm.DoctorsName.value,
+        Email: registrationForm.Email.value,
+        Specialization: registrationForm.Specialization.value,
+        Gender: registrationForm.Gender.value,
+        Phone: registrationForm.Phone.value,
+        Password: registrationForm.Password.value,
+        Confirm_password: registrationForm.Confirm_password.value
+        
+    }
+    
+    fetch('/index/register', {
+        method: 'POST',
+        body: JSON.stringify(doctorData),
+        headers: {'Content-Type': 'application/json'}
+    })
+    .then((response)=>{
+        if(response.ok){
+            alert("Registration was successful")
+            window.location.assign("/login")
+            return response.json()
+        }else{
+            console.log(response)
+            alert('Registration failed')
+        }
+    })
+    .catch((error)=>{
+        console.log(error)
+    })
+})
+
+</script>

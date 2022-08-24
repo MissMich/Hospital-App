@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <style>
+    body{
+      background-image: url('https://thumbs.dreamstime.com/b/asia-woman-doctor-isolated-white-38652576.jpg');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 90vh;
+      width: 100%;
+    }
+    .body{
+      background-color: transparent;
+    }
+  </style>
+</head>
+<body>
+
+  <section class="top-section" >
+    <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+      <button type="button" class="btn top-left"><a href="/dashboard"><i class="fa fa-arrow-left"></i></a></button> 
+      <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+            <div class="card mt-4 mb-2 body" style="border-radius: 15px;">
+              <div class="card-body" >
+                <h2 class="text-uppercase text-center mb-2">Edit Details</h2>
+                <% id = updatePatientInfo.id %>
+                <form action="/users/update/<%= id %>" method="post" class="my-form">
+                  <div class="form-outline mb-2">
+                    <label for="">Name</label>
+                    <input type="text" id="form3Example1cg" class="form-control form-control-lg" value="<%= updatePatientInfo.patientName %>" name="patientName"/> 
+                  </div>
+                  <div class="form-outline mb-2">
+                    <label for="">Age</label>
+                      <input type="text" id="form3Example3cg" class="form-control form-control-lg" value="<%= updatePatientInfo.age %>" name="age"/>
+                    </div>
+                  <div class="form-outline mb-2">
+                    <label for="">Hospital Name</label>
+                      <input type="text" id="form3Example3cg" class="form-control form-control-lg" value="<%= updatePatientInfo.hospitalName %>" name="hospitalName"/>
+                    </div>
+                  <div class="form-outline mb-2">
+                    <label for="">Weight</label>
+                      <input type="text" id="form3Example3cg" class="form-control form-control-lg" value="<%= updatePatientInfo.weight %>" name="weight"/>
+                    </div>
+                    <div class="form-outline mb-2">
+                        <label for="">Height</label> 
+                      <input type="text" id="form3Example3cg" class="form-control form-control-lg" value=" <%= updatePatientInfo.height %>" name="height"/>
+                    </div>
+                  <div class="form-outline mb-2">
+                    <label for="">Blood Group</label>
+                    <input type="text" id="form3Example4cg" class="form-control form-control-lg" value="<%= updatePatientInfo.bloodGroup %>" name="bloodGroup"/>
+                  </div>
+                  <div class="form-outline mb-2">
+                    <label for="">Genotype</label>
+                    <input type="text" id="form3Example4cdg" class="form-control form-control-lg" value="<%= updatePatientInfo.genotype %>" name="genotype"/>
+                  </div>
+                  <div class="form-outline mb-2">
+                    <label for="">Blood Pressure</label>
+                    <input type="text" id="form3Example4cdg" class="form-control form-control-lg" value="<%= updatePatientInfo.bloodPressure %>" name="bloodPressure"/>
+                  </div>
+                  <div class="form-outline mb-2">
+                    <label for="">HIV Status</label>
+                    <input type="text" id="form3Example4cdg" class="form-control form-control-lg" value="<%= updatePatientInfo.HIV_status %>" name="HIV_status"/>
+                  </div>
+                  <div class="form-outline mb-2">
+                    <label for="">Hepatitis</label>
+                    <input type="text" id="form3Example4cdg" class="form-control form-control-lg" value="<%= updatePatientInfo.hepatitis %>" name="hepatitis"/>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <button type="submit"
+                      class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Update</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>    
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DeletePatients = exports.UpdatePatients = exports.getOne = exports.getPatients = exports.Users = void 0;
+exports.DeletePatients = exports.updatePatientInfo = exports.UpdatePatients = exports.getPatientInfo = exports.getOne = exports.getPatients = exports.Users = void 0;
 const patients_1 = require("../model/patients");
 const uuid_1 = require("uuid");
 const utils_1 = require("../utils/utils");
@@ -20,11 +20,12 @@ async function Users(req, res, next) {
             ...req.body,
             userId: verified.id
         });
-        res.status(201);
-        res.json({
-            message: "You have successfully registered a patient.",
-            record
-        });
+        // res.status(201);
+        // res.json({
+        //     message:"You have successfully registered a patient.",
+        //     record
+        // })
+        res.redirect('/dashboard');
     }
     catch (err) {
         console.log(err);
@@ -66,13 +67,14 @@ async function getPatients(req, res, next) {
 exports.getPatients = getPatients;
 async function getOne(req, res, next) {
     try {
-        const { id } = req.params;
-        const record = await patients_1.PatientsInstance.findOne({ where: { id } });
-        res.status(200);
-        res.json({
-            msg: "Here is your patient",
-            record
-        });
+        const id = req.params;
+        const record = await patients_1.PatientsInstance.findAndCountAll({ where: id });
+        res.render('dashboard', { patientDetail: record.rows });
+        // res.status(200);
+        // res.json({
+        //     msg:"Here is your patient",
+        //     record
+        // })
     }
     catch (error) {
         res.status(500);
@@ -83,6 +85,23 @@ async function getOne(req, res, next) {
     }
 }
 exports.getOne = getOne;
+//to get a single patients full info
+async function getPatientInfo(req, res, next) {
+    const uniqueId = req.params;
+    try {
+        const record = await patients_1.PatientsInstance.findOne({ where: uniqueId });
+        res.render('patient', { uniquePatient: record });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500);
+        res.json({
+            msg: 'failed to read a patient',
+            route: '/read/unique/:id'
+        });
+    }
+}
+exports.getPatientInfo = getPatientInfo;
 async function UpdatePatients(req, res, next) {
     try {
         const { id } = req.params;
@@ -112,10 +131,11 @@ async function UpdatePatients(req, res, next) {
             HIV_status: HIV_status,
             hepatitis: hepatitis
         });
-        res.status(200).json({
-            message: 'you have successfully updated patients',
-            record: updaterecord
-        });
+        // res.status(200).json({
+        //     message: 'you have successfully updated patients',
+        //     record: updaterecord 
+        //  })
+        res.redirect('/dashboard');
     }
     catch (error) {
         res.status(500).json({
@@ -125,6 +145,23 @@ async function UpdatePatients(req, res, next) {
     }
 }
 exports.UpdatePatients = UpdatePatients;
+async function updatePatientInfo(req, res, next) {
+    const uniqueId = req.params;
+    try {
+        const record = await patients_1.PatientsInstance.findOne({ where: uniqueId });
+        res.render('updateinfo', { updatePatientInfo: record });
+        //   res.redirect('/dashboard')
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500);
+        res.json({
+            msg: 'failed to update a patient',
+            route: '/update/unique/:id'
+        });
+    }
+}
+exports.updatePatientInfo = updatePatientInfo;
 async function DeletePatients(req, res, next) {
     try {
         const { id } = req.params;
@@ -135,10 +172,11 @@ async function DeletePatients(req, res, next) {
             });
         }
         const deletedRecord = await record?.destroy();
-        res.status(200).json({
-            msg: 'Patient has been deleted successfully',
-            deletedRecord
-        });
+        res.render('dashboardrefresh');
+        //    res.status(200).json({
+        //     msg: 'Patient has been deleted successfully',
+        //     deletedRecord
+        //    })
     }
     catch (error) {
         res.status(500).json({

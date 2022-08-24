@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <style>
+    .btn{
+      font-size: 20px;
+    }
+    body{
+      background-image: url('https://thumbs.dreamstime.com/b/asia-woman-doctor-isolated-white-38652576.jpg');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 90vh;
+      width: 100%;
+      font-size: large;
+    }
+    .table{
+      background-color: transparent;
+    }
+    .head{
+      color:black;  
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h1><a href="/regpatients" class="head">Register Patient</a></h1>
+  </div>
+  <div>
+    <table class="table col-md-8">
+        <thead style="font-size:30px">
+          <tr class="table">
+            <th scope="col">Patient Name</th>
+            <th scope="col">Age</th>
+            <th scope="col">Hospital Name</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <% patientDetail.forEach(patient =>{ %>
+        <% id = patient.id %>
+        <tbody class="table-group-divider">
+          <tr>
+            <td> <%= patient.patientName %></td>
+            <td> <%= patient.age %></td>
+            <td> <%= patient.hospitalName %></td>
+            <td> 
+              <button type="button"><a href="./patient/<%= id %>">More...</a></button>
+              <a class="btn" href="/users/unique/<%= id %>" style="margin: 0 15px; "><i class="fa fa-edit"></i></a>
+              <a class="btn" href="/users/delete/<%= id %>" style= " color:red"><i class="fa fa-trash"></i></a>
+            </td>
+          </tr>
+        </tbody>
+        <% }) %>
+      </table>
+    </div>
+</body>
+</html>

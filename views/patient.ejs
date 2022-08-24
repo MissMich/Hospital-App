@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <style>
+    body{
+      background-image: url('https://thumbs.dreamstime.com/b/asia-woman-doctor-isolated-white-38652576.jpg');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 90vh;
+      width: 100%;
+      font-size: larger;
+    }
+  </style>
+</head>
+<body>
+
+
+    
+    <% id = uniquePatient.id %>
+    <table class="table caption-top">
+        <caption style="font-weight:bolder">TOP NOTCH</caption>
+        <thead>
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Info</th>  
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Patient Name</td>
+            <td> <%= uniquePatient.patientName %> </td>
+          </tr>
+          <tr>
+            <td>Age</td>
+            <td><%= uniquePatient.age %></td>
+          </tr>
+          <tr>
+            <td>Hospital Name</td>
+            <td><%= uniquePatient.hospitalName %></td>
+          </tr>
+          <tr>
+            <td>Weight</td>
+            <td><%= uniquePatient.weight %></td>
+          </tr>
+          <tr>
+            <td>Height</td>
+            <td><%= uniquePatient.height %></td>
+          </tr>
+          <tr>
+            <td>Blood Group</td>
+            <td><%= uniquePatient.bloodGroup %></td>
+          </tr>
+          <tr>
+            <td>Genotype</td>
+            <td><%= uniquePatient.genotype %></td>
+          </tr>
+          <tr>
+            <td>Blood Pressure</td>
+            <td><%= uniquePatient.bloodPressure %></td>
+          </tr>
+          <tr>
+            <td>HIV Status</td>
+            <td><%= uniquePatient.HIV_status %></td>
+          </tr>
+          <tr>
+            <td>Hepatitis</td>
+            <td><%= uniquePatient.hepatitis %></td>
+          </tr>
+        </tbody>
+      </table>
+</body>
+</html>

@@ -6,5 +6,4 @@ router.post('/register', RegisterUser)
 router.post('/login', LoginUser)
 router.get('/allusers', getUsers)
 
-
 export default router;

@@ -20,11 +20,12 @@ export async function Users(req:Request | any, res:Response, next:NextFunction) 
             id,
             ...req.body, 
             userId: verified.id})
-        res.status(201);
-        res.json({
-            message:"You have successfully registered a patient.",
-            record
-        })
+        // res.status(201);
+        // res.json({
+        //     message:"You have successfully registered a patient.",
+        //     record
+        // })
+        res.redirect('/dashboard')
     }catch(err){
         console.log(err)
         res.status(500).json({
@@ -64,18 +65,37 @@ export async function Users(req:Request | any, res:Response, next:NextFunction) 
 
   export async function getOne(req:Request, res:Response, next:NextFunction){
     try{
-      const { id } = req.params
-      const record = await PatientsInstance.findOne({where:{id}})
-        res.status(200);
-        res.json({
-            msg:"Here is your patient",
-            record
-        })
+      const  id  = req.params
+      const record = await PatientsInstance.findAndCountAll({where: id})
+      res.render('dashboard', {patientDetail: record.rows})
+        // res.status(200);
+        // res.json({
+        //     msg:"Here is your patient",
+        //     record
+        // })
+       
     }catch(error){
         res.status(500);
         res.json({
             msg:'failed to read a patient',
             route: '/read/:id'
+        })
+    }
+}
+
+//to get a single patients full info
+export async function getPatientInfo(req:Request, res:Response, next:NextFunction){
+    const  uniqueId  = req.params
+    try{
+      const record = await PatientsInstance.findOne({where: uniqueId})
+      res.render('patient', {uniquePatient: record})
+       
+    }catch(error){
+        console.log(error)
+        res.status(500);
+        res.json({
+            msg:'failed to read a patient',
+            route: '/read/unique/:id'
         })
     }
 }
@@ -110,10 +130,11 @@ export async function UpdatePatients(req:Request, res:Response, next:NextFunctio
             HIV_status:HIV_status,
             hepatitis:hepatitis
         })
-        res.status(200).json({
-            message: 'you have successfully updated patients',
-            record: updaterecord 
-         })
+        // res.status(200).json({
+        //     message: 'you have successfully updated patients',
+        //     record: updaterecord 
+        //  })
+        res.redirect('/dashboard')
     }catch(error){
             res.status(500).json({
             msg:'failed to update',
@@ -121,6 +142,23 @@ export async function UpdatePatients(req:Request, res:Response, next:NextFunctio
         })
     }
 }
+export async function updatePatientInfo(req:Request, res:Response, next:NextFunction){
+    const  uniqueId  = req.params
+    try{
+      const record = await PatientsInstance.findOne({where: uniqueId})
+      res.render('updateinfo', {updatePatientInfo: record})
+    //   res.redirect('/dashboard')
+       
+    }catch(error){
+        console.log(error)
+        res.status(500);
+        res.json({
+            msg:'failed to update a patient',
+            route: '/update/unique/:id'
+        })
+    }
+}
+
 
 export async function DeletePatients(req:Request, res:Response, next:NextFunction){
     try{
@@ -132,10 +170,11 @@ export async function DeletePatients(req:Request, res:Response, next:NextFunctio
             })
         }
        const deletedRecord = await record?.destroy();
-       res.status(200).json({
-        msg: 'Patient has been deleted successfully',
-        deletedRecord
-       })
+       res.render('dashboardrefresh')
+    //    res.status(200).json({
+    //     msg: 'Patient has been deleted successfully',
+    //     deletedRecord
+    //    })
     }catch(error){
             res.status(500).json({
             msg:'failed to delete',

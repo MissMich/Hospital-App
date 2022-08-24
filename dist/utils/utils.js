@@ -38,8 +38,8 @@ exports.registerSchema = joi_1.default.object().keys({
     Gender: joi_1.default.string().required(),
     Phone: joi_1.default.string().length(11).pattern(/^[0-9]+$/).required(),
     Password: joi_1.default.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
-    confirm_password: joi_1.default.ref('Password')
-}).with('Password', 'confirm_password');
+    Confirm_password: joi_1.default.ref('Password')
+}).with('Password', 'Confirm_password');
 exports.loginSchema = joi_1.default.object().keys({
     Email: joi_1.default.string().trim().lowercase().required(),
     Password: joi_1.default.string().regex(/^[a-zA-Z0-9]{3,30}$/)

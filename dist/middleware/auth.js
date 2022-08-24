@@ -10,13 +10,15 @@ const secrets = process.env.JWT_SECRETS;
 //checking that a user is verified and can access their unique login details
 async function auth(req, res, next) {
     try {
-        const authorization = req.headers.authorization;
-        if (!authorization) {
-            res.status(401).json({
-                Error: 'Kindly sign up as a user'
-            });
+        const authorization = req.header.authorization;
+        if (!req.cookies.token) {
+            //   res.status(401).json({
+            //     Error: 'Kindly sign up as a user'
+            //   }) 
+            res.redirect('/login');
+            return;
         }
-        const token = authorization?.slice(7, authorization.length);
+        const token = authorization?.slice(7, authorization.length) || req.cookies.token;
         let verified = jsonwebtoken_1.default.verify(token, secrets);
         if (!verified) {
             return res.status(401).json({
